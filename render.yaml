@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: etheria-chronicles
+    runtime: node
+    plan: starter
+    numInstances: 1
+    buildCommand: npm ci --include=dev && npm run build
+    preDeployCommand: node dist/server/migrate.js
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 22.23.1
+      - key: AUTH_MODE
+        value: supabase
+      - key: PUBLIC_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
